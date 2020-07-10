@@ -15,14 +15,14 @@ public class X_O_Game {
     public static final char DOT_O = 'O';
 
     public static void main(String[] args) {
-        boolean b = true;
-        while (b == true) {
+        boolean replay = true;
+        while (replay == true) {
             initMap();
             printMap();
             while (true) {
                 humanTurn();
                 printMap();
-                if (checkWin(DOT_X)) {
+                if (checkDiag(DOT_X)) {
                     System.out.println("Победил человек");
                     break;
                 }
@@ -32,7 +32,7 @@ public class X_O_Game {
                 }
                 aiTurn();
                 printMap();
-                if (checkWin(DOT_O)) {
+                if (checkDiag(DOT_O)) {
                     System.out.println("Победил компьютер");
                     break;
                 }
@@ -48,7 +48,7 @@ public class X_O_Game {
             int replayNumber = sc.nextInt();
             if (replayNumber == 0) {
                 sc.close();
-                b = false;
+                replay = false;
             }
         }
     }
@@ -109,13 +109,24 @@ public class X_O_Game {
         return false;
     }
 
-    public static boolean checkWin(char symb) {
-        for (int i = 0; i <= SIZE - 1; i++) {
-            for (int j = 0; j <= SIZE - 1; j++) {
-                if (map[i][j]==symb) & (map[i+1][j])
-                    return true;
-                }
+    public static boolean checkDiag(char symb) {
+        boolean d1 = true;
+        boolean d2 = true;
+        for (int i = 0; i < 4; i++) {
+            d1 = d1 & (map[i][i] == symb);
+            d2 = d2 & (map[i][3 - i] == symb);
         }
+        for (int i = 1; i < 5; i++) {
+            d1 = d1 & (map[i][i-1] == symb);
+            d2 = d2 & (map[i][4 - i] == symb);
+        }
+        if (d1) return true;
+        if (d2) return true;
+        return false;
+    }
+
+    public static boolean checkWin(char symb) {
+        if (checkDiag(symb)) return true;
         return false;
     }
 
