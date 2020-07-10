@@ -7,7 +7,7 @@ public class X_O_Game {
     public static Random rand = new Random();
     public static Scanner sc = new Scanner(System.in);
     public static char[][] map;
-    public static final int SIZE = 5;
+    public static final int SIZE = 4;
     public static final int DOTS_TO_WIN = 4;
 
     public static final char DOT_EMPTY = '•';
@@ -112,35 +112,36 @@ public class X_O_Game {
     public static boolean checkDiag(char symb) {
         boolean d1 = true;
         boolean d2 = true;
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < SIZE; i++) {
             d1 = d1 & (map[i][i] == symb);
             d2 = d2 & (map[i][3 - i] == symb);
-        }
-        for (int i = 1; i < 5; i++) {
-            d1 = d1 & (map[i][i-1] == symb);
-            d2 = d2 & (map[i][4 - i] == symb);
         }
         if (d1) return true;
         if (d2) return true;
         return false;
     }
 
-    public static boolean checkWin(char symb) {
-        if (checkDiag(symb)) return true;
+    public static boolean vertHorCheck(char symb) {
+        boolean v;
+        boolean h;
+        for (int i = 0; i < SIZE; i++) {
+            v = true;
+            h = true;
+            for (int j = 0; j < SIZE; j++) {
+                v = v & (map[i-i][i] == symb);
+                h = h & (map[i][j-j] == symb);
+            }
+            if (v) return true;
+            if (h) return true;
+        }
         return false;
     }
 
-//    public static boolean checkWin(char symb) {
-//        if (map[0][0] == symb && map[0][1] == symb && map[0][2] == symb) return true;
-//        if (map[1][0] == symb && map[1][1] == symb && map[1][2] == symb) return true;
-//        if (map[2][0] == symb && map[2][1] == symb && map[2][2] == symb) return true;
-//        if (map[0][0] == symb && map[1][0] == symb && map[2][0] == symb) return true;
-//        if (map[0][1] == symb && map[1][1] == symb && map[2][1] == symb) return true;
-//        if (map[0][2] == symb && map[1][2] == symb && map[2][2] == symb) return true;
-//        if (map[0][0] == symb && map[1][1] == symb && map[2][2] == symb) return true;
-//        if (map[2][0] == symb && map[1][1] == symb && map[0][2] == symb) return true;
-//        return false;
-//    }
+    public static boolean checkWin(char symb) {
+        if (checkDiag(symb)) return true;
+        if (vertHorCheck(symb)) return true;
+        return false;
+    }
 
     public static boolean isMapFull() {
         for (int i = 0; i < SIZE; i++) {
@@ -149,6 +150,5 @@ public class X_O_Game {
             }
         }
         return true;
-
     }
 }
