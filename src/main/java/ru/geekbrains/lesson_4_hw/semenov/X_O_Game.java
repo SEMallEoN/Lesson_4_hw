@@ -22,7 +22,7 @@ public class X_O_Game {
             while (true) {
                 humanTurn();
                 printMap();
-                if (checkDiag(DOT_X)) {
+                if (checkWin(DOT_X)) {
                     System.out.println("Победил человек");
                     break;
                 }
@@ -32,7 +32,7 @@ public class X_O_Game {
                 }
                 aiTurn();
                 printMap();
-                if (checkDiag(DOT_O)) {
+                if (checkWin(DOT_O)) {
                     System.out.println("Победил компьютер");
                     break;
                 }
@@ -128,8 +128,8 @@ public class X_O_Game {
             v = true;
             h = true;
             for (int j = 0; j < SIZE; j++) {
-                v = v & (map[i-i][i] == symb);
-                h = h & (map[i][j-j] == symb);
+                v = v & (map[i][j] == symb);
+                h = h & (map[j][i] == symb);
             }
             if (v) return true;
             if (h) return true;
