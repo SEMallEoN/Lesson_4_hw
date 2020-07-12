@@ -1,13 +1,13 @@
-package ru.geekbrains.lesson_4_hw.semenov;
+package ru.geekbrains.lesson_4_hw.semenov_5x5;
 
 import java.util.Random;
 import java.util.Scanner;
 
-public class X_O_Game {
+public class X_O_Game_5x5 {
     public static Random rand = new Random();
     public static Scanner sc = new Scanner(System.in);
     public static char[][] map;
-    public static final int SIZE = 4;
+    public static final int SIZE = 5;
     public static final int DOTS_TO_WIN = 4;
 
     public static final char DOT_EMPTY = '•';
@@ -109,37 +109,64 @@ public class X_O_Game {
         return false;
     }
 
-    public static boolean checkDiag(char symb) {
-        boolean d1 = true;
-        boolean d2 = true;
-        for (int i = 0; i < SIZE; i++) {
-            d1 = d1 & (map[i][i] == symb);
-            d2 = d2 & (map[i][3 - i] == symb);
-        }
-        if (d1) return true;
-        if (d2) return true;
-        return false;
-    }
-
-    public static boolean vertHorCheck(char symb) {
-        boolean v;
-        boolean h;
-        for (int i = 0; i < SIZE; i++) {
-            v = true;
-            h = true;
-            for (int j = 0; j < SIZE; j++) {
-                v = v & (map[i][j] == symb);
-                h = h & (map[j][i] == symb);
-            }
-            if (v) return true;
-            if (h) return true;
-        }
-        return false;
-    }
-
     public static boolean checkWin(char symb) {
-        if (checkDiag(symb)) return true;
-        if (vertHorCheck(symb)) return true;
+        // диагональ 1
+        int count = 0;
+        for (int i = 0; i < map.length; i++) {
+            for (int j = 0; j < map[i].length; j++) {
+                if (i == j && map[i][j] == symb) {
+                    count++;
+                } else if (i == j && !(map[i][j] == symb)) {
+                    count = 0;
+                }
+            }
+            if (count == DOTS_TO_WIN) {
+                return true;
+            }
+        }
+        // диагональ 2
+        count = 0;
+        for (int i = 0; i < map.length; i++) {
+            for (int j = 0; j < map[i].length; j++) {
+                if (i == map.length - (i + 1) && map[i][j] == symb) {
+                    count++;
+                } else if (i == map.length - (i + 1) && !(map[i][j] == symb)) {
+                    count = 0;
+                }
+            }
+            if (count == DOTS_TO_WIN) {
+                return true;
+            }
+        }
+
+        // горизонталь
+        count = 0;
+        for (int i = 0; i < map.length; i++) {
+            for (int j = 0; j < map[i].length; j++) {
+                if (map[i][j] == symb) {
+                    count++;
+                } else if (!(map[i][j] == symb)) {
+                    count = 0;
+                }
+                if (count == DOTS_TO_WIN) {
+                    return true;
+                }
+            }
+        }
+        // вертикаль
+        count = 0;
+        for (int i = 0; i < map.length; i++) {
+            for (int j = 0; j < map[i].length; j++) {
+                if (map[j][i] == symb) {
+                    count++;
+                } else if (!(map[j][i] == symb)) {
+                    count = 0;
+                }
+                if (count == DOTS_TO_WIN) {
+                    return true;
+                }
+            }
+        }
         return false;
     }
 
